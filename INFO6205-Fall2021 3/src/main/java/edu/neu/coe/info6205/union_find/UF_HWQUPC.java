@@ -81,6 +81,17 @@ public class UF_HWQUPC implements UF {
     public int find(int p) {
         validate(p);
         int root = p;
+        while(root != parent[root]) {
+        	//doPathCompression(root);
+        	if(this.pathCompression) {
+        		doPathCompression(root);
+        		//parent[root] = parent[parent[root]];
+        	}
+        	
+        	
+        	root = parent[root];
+        }
+        //doPathCompression(root);
         // TO BE IMPLEMENTED
         return root;
     }
@@ -143,6 +154,7 @@ public class UF_HWQUPC implements UF {
             throw new IllegalArgumentException("index " + p + " is not between 0 and " + (n - 1));
         }
     }
+    
 
     private void updateParent(int p, int x) {
         parent[p] = x;
@@ -169,12 +181,56 @@ public class UF_HWQUPC implements UF {
 
     private void mergeComponents(int i, int j) {
         // TO BE IMPLEMENTED make shorter root point to taller one
+    	if(height[i] < height[j]) {
+    		parent[i] = j;
+    		//updateParent(i, j);
+    		height[j] += height[i];
+    	}
+    	else {
+    		parent[j] = parent[i];
+    		updateParent(j, i);
+    		height[i] += height[j];
+    	}
+    }
+    
+    public static int count(int n) {
+    	int connection = 0;
+    	UF h = new UF_HWQUPC(n);
+    	while(h.components() > 1) {
+    		int elementa = (int)(Math.random()*(n));
+    		int elementb = (int)(Math.random()*(n));
+    		if(!h.isConnected(elementa, elementb)) {
+    			h.union(elementa, elementb);
+    		}
+    		connection++ ;
+    	}
+    	
+    	return connection;
     }
 
     /**
      * This implements the single-pass path-halving mechanism of path compression
      */
     private void doPathCompression(int i) {
+    	
+    	parent[i] = parent[parent[i]];
+    	//parent[i] = find(i);
         // TO BE IMPLEMENTED update parent to value of grandparent
+    }
+    
+    public static void main(String args[]) {
+    	int connection = 0;
+    	for(int i = 100; i <= 10000; i+=10) {
+    		connection = count(i);
+    		
+    		
+    		for(int j = 0; j < 50 ; j++) {
+    			connection  += count(i);
+    		}
+    		connection /= 50;
+    		System.out.println("connection of n = " + i + " is " + connection);
+    		connection = 0;
+    	}
+    	
     }
 }
