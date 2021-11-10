@@ -172,7 +172,7 @@ public class Benchmark_Timer<T> implements Benchmark<T> {
     	System.out.println("time for random array( n = " + len + ") is " + bm.run(array, 100));
     	System.out.println("time for ordered array ( n = " + len + ")is " + bm.run(arrayOrder, 100));
     	System.out.println("time for Partly ordered array( n = " + len + ") is " + bm.run(arrayPart, 100));
-    	System.out.println("time for inverse array( n = " + len + ") is  " + bm.run(arrayReverse, 100));
+    	System.out.println("time for reverse array( n = " + len + ") is  " + bm.run(arrayReverse, 100));
     	//System.out.println(array);
 //    	for (int k = 0; k < array.length;k++) {
 //    		System.out.print(" " + array[k]);

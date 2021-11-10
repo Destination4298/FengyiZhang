@@ -43,6 +43,7 @@ class ParSort {
     }
 
     private static CompletableFuture<int[]> parsort(int[] array, int from, int to) {
+    
         return CompletableFuture.supplyAsync(
                 () -> {
                     int[] result = new int[to - from];
@@ -50,7 +51,7 @@ class ParSort {
                     System.arraycopy(array, from, result, 0, result.length);
                     sort(result, 0, to - from);
                     return result;
-                }
+                },Main.Pool
         );
     }
 }
